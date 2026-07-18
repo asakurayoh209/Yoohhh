@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our 6 Month Anniversary 💕</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            overflow: hidden;
+        }
+
+        .container {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Heart Shape */
+        .heart {
+            position: relative;
+            width: 300px;
+            height: 300px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .heart:hover {
+            transform: scale(1.1);
+        }
+
+        .heart::before,
+        .heart::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            width: 150px;
+            height: 240px;
+            background: #ff69b4;
+            border-radius: 150px 150px 0 0;
+            opacity: 0.9;
+            transition: all 0.3s ease;
+        }
+
+        .heart::before {
+            left: 150px;
+            transform: rotate(-45deg);
+            transform-origin: 0 100%;
+        }
+
+        .heart::after {
+            right: 150px;
+            transform: rotate(45deg);
+            transform-origin: 100% 100%;
+        }
+
+        .heart:hover::before,
+        .heart:hover::after {
+            opacity: 1;
+            background: #ff1493;
+        }
+
+        /* Heart Content */
+        .heart-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            color: white;
+            z-index: 10;
+            width: 80%;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .heart-content h1 {
+            font-size: 24px;
+            margin-bottom: 10px;
+            animation: pulse 2s infinite;
+        }
+
+        .heart-content p {
+            font-size: 14px;
+            margin: 5px 0;
+            line-height: 1.4;
+        }
+
+        .click-text {
+            font-size: 12px;
+            margin-top: 15px;
+            opacity: 0.8;
+            animation: blink 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        @keyframes blink {
+            0%, 50%, 100% { opacity: 0.8; }
+            25%, 75% { opacity: 1; }
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 100;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal.show {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 40px;
+            border-radius: 15px;
+            text-align: center;
+            color: white;
+            max-width: 500px;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            animation: slideUp 0.5s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .modal-content h2 {
+            font-size: 32px;
+            margin-bottom: 20px;
+            color: #fff;
+        }
+
+        .modal-content .anniversary-info {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            backdrop-filter: blur(10px);
+        }
+
+        .modal-content .anniversary-info p {
+            font-size: 16px;
+            margin: 10px 0;
+            line-height: 1.6;
+        }
+
+        .modal-content .love-message {
+            background: rgba(255, 192, 203, 0.2);
+            padding: 25px;
+            border-radius: 10px;
+            margin: 20px 0;
+            font-style: italic;
+            line-height: 1.8;
+            font-size: 15px;
+        }
+
+        .modal-content .memories {
+            text-align: left;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        .modal-content .memories h3 {
+            margin-bottom: 15px;
+            font-size: 20px;
+        }
+
+        .modal-content .memory-item {
+            margin: 10px 0;
+            padding-left: 20px;
+            border-left: 3px solid #ffb6c1;
+            line-height: 1.6;
+        }
+
+        .close-btn {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 2px solid white;
+            padding: 10px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+            font-weight: bold;
+        }
+
+        .close-btn:hover {
+            background: white;
+            color: #667eea;
+            transform: scale(1.05);
+        }
+
+        .floating-hearts {
+            position: fixed;
+            pointer-events: none;
+        }
+
+        .float-heart {
+            position: absolute;
+            font-size: 20px;
+            opacity: 0.7;
+            animation: float-up 3s ease-in forwards;
+        }
+
+        @keyframes float-up {
+            0% {
+                opacity: 0.7;
+                transform: translateY(0);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-100px) rotate(20deg);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="heart" id="heart">
+            <div class="heart-content">
+                <h1>💕 Our Love 💕</h1>
+                <p>6 Months Together</p>
+                <p class="click-text">Click the heart to open</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for Love Message -->
+    <div id="loveModal" class="modal">
+        <div class="modal-content">
+            <h2>Happy 6 Month Anniversary, Hailey! 💕</h2>
+            
+            <div class="anniversary-info">
+                <p><strong>Together Since:</strong> 6 Months of Pure Happiness</p>
+                <p><strong>Forever Growing:</strong> One day at a time, with you</p>
+            </div>
+
+            <div class="love-message">
+                <p>
+                    My dearest Hailey,<br><br>
+                    Six months with you feels like a lifetime of happiness packed into moments. 
+                    Every day with you is a blessing I never knew I needed. 
+                    Thank you for being my light, my smile, and my reason to believe in love.<br><br>
+                    You make every ordinary moment feel extraordinary.<br><br>
+                    Forever yours,<br>
+                    With all my love ❤️
+                </p>
+            </div>
+
+            <div class="memories">
+                <h3>✨ Our Precious Memories ✨</h3>
+                <div class="memory-item">
+                    <strong>🎉 The Moment We Met:</strong> 
+                    Our story began at that special school event, where fate brought us together. 
+                    I remember seeing you and knowing something magical was about to happen.
+                </div>
+                <div class="memory-item">
+                    <strong>😄 Laughing Together:</strong> 
+                    Every laugh we share is my favorite sound in the world. 
+                    Your smile brightens my darkest days, and your laughter is my favorite music.
+                </div>
+                <div class="memory-item">
+                    <strong>💑 Six Months of Love:</strong> 
+                    From that first moment to now, you've made me the happiest person. 
+                    I can't wait to create a thousand more memories with you.
+                </div>
+            </div>
+
+            <button class="close-btn" onclick="closeModal()">Close Heart</button>
+        </div>
+    </div>
+
+    <script>
+        const heart = document.getElementById('heart');
+        const modal = document.getElementById('loveModal');
+
+        // Open modal when heart is clicked
+        heart.addEventListener('click', function() {
+            modal.classList.add('show');
+            createFloatingHearts();
+        });
+
+        // Close modal when clicking outside the content
+        modal.addEventListener('click', function(event) {
+            if (event.target === modal) {
+                closeModal();
+            }
+        });
+
+        function closeModal() {
+            modal.classList.remove('show');
+        }
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                closeModal();
+            }
+        });
+
+        // Create floating hearts animation
+        function createFloatingHearts() {
+            for (let i = 0; i < 15; i++) {
+                const heart = document.createElement('div');
+                heart.className = 'float-heart';
+                heart.textContent = '❤️';
+                heart.style.left = Math.random() * 100 + '%';
+                heart.style.top = Math.random() * 100 + '%';
+                heart.style.animationDelay = Math.random() * 0.5 + 's';
+                document.body.appendChild(heart);
+
+                // Remove element after animation
+                setTimeout(() => {
+                    heart.remove();
+                }, 3000);
+            }
+        }
+
+        // Optional: Add some floating hearts on page load
+        window.addEventListener('load', function() {
+            console.log('Anniversary page loaded! Click the heart to reveal your message 💕');
+        });
+    </script>
+</body>
+</html>
