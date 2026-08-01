@@ -3,57 +3,298 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Happy Girlfriend's Day — Private</title>
+  <title>Private — For My Girlfriend</title>
   <style>
     :root{
-      --bg:#0c1021;
-      --card:#111328cc;
-      --accent:#ff6b9a;
-      --muted:#cbd5e1;
-      --caution-yellow: #ffdd57;
-      --caution-black: #111;
+      --white:#ffffff;
+      --purple1:#f3e8ff;
+      --purple2:#caa6ff;
+      --purple3:#9b6bff;
+      --accent:#fff0f6;
+      --caution-yellow:#ffdd57;
+      --caution-black:#111;
     }
     html,body{height:100%;margin:0;font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;}
     body{
-      background: radial-gradient(1200px 600px at 10% 10%, #15203a 0%, transparent 20%),
-                  radial-gradient(900px 400px at 90% 90%, #221133 0%, transparent 20%),
-                  var(--bg);
-      display:flex;align-items:center;justify-content:center;padding:20px;color:var(--muted);
+      background:
+        radial-gradient(600px 420px at 20% 25%, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.92) 14%, transparent 35%),
+        linear-gradient(160deg, var(--white) 0%, var(--purple1) 25%, var(--purple2) 60%, var(--purple3) 100%);
+      display:flex;align-items:center;justify-content:center;padding:32px;color:var(--accent);
     }
-    .card{
-      width:100%;max-width:920px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.04));
-      border-radius:18px;padding:26px;box-shadow:0 10px 40px rgba(2,6,23,0.6);position:relative;overflow:hidden;
-      backdrop-filter: blur(6px);
-      border:1px solid rgba(255,255,255,0.03);
-    }
-    header{display:flex;gap:16px;align-items:center;margin-bottom:14px;}
-    .logo{
-      width:56px;height:56px;border-radius:12px;background:linear-gradient(135deg,var(--accent),#ffb3d0);display:flex;align-items:center;justify-content:center;font-weight:700;color:white;font-size:26px;box-shadow:0 6px 20px rgba(255,107,154,0.18);
-    }
-    h1{margin:0;font-size:1.4rem;color:#fff}
-    p.lead{margin:4px 0 0;color:rgba(255,255,255,0.75)}
-    .layout{display:grid;grid-template-columns:1fr 420px;gap:18px;align-items:stretch;}
-    @media(max-width:940px){ .layout{grid-template-columns:1fr; } .preview{order:-1} }
 
-    .left{padding:6px}
-    label{font-size:0.9rem;color:var(--muted);display:block;margin-top:10px}
-    input[type="text"], input[type="file"], textarea{
-      width:100%;padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,0.06);background:transparent;color:var(--muted);
-      outline:none;font-size:0.95rem;
+    .stage{
+      display:flex;flex-direction:column;align-items:center;gap:20px;text-align:center;width:100%;max-width:920px;
     }
-    .row{display:flex;gap:10px;margin-top:12px}
-    button{
-      background:linear-gradient(90deg,var(--accent),#ff9fc9);border:0;padding:10px 14px;border-radius:12px;color:white;font-weight:600;cursor:pointer;
-      box-shadow:0 8px 18px rgba(255,107,154,0.18);
+
+    .photo-wrap{
+      width:360px;height:360px;border-radius:20px;display:flex;align-items:center;justify-content:center;position:relative;
+      background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.12), transparent 20%), rgba(255,255,255,0.02);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.12), inset 0 6px 30px rgba(255,255,255,0.03);
     }
-    button.ghost{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--muted);box-shadow:none}
 
-    /* preview */
-    .preview{padding:18px;border-radius:12px;background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);display:flex;flex-direction:column;align-items:center;gap:14px;min-height:480px;justify-content:flex-start}
-    .photo-wrap{width:260px;height:260px;border-radius:20px;overflow:hidden;display:flex;align-items:center;justify-content:center;border:6px solid rgba(255,255,255,0.03);background:linear-gradient(180deg,#111428,#0f1124);position:relative;}
-    .photo-wrap img{width:100%;height:100%;object-fit:cover;display:block}
+    .heart-svg{
+      width:72%;height:72%;cursor:pointer;z-index:2;display:block;transition:transform .22s;outline:none;
+    }
+    .heart-svg.pulse{animation:pulse 1s infinite;}
+    @keyframes pulse{0%{transform:scale(1)}50%{transform:scale(1.06)}100%{transform:scale(1)}}
 
-    /* heart + caution tape wrapper */
-    .heart-wrap{position:relative;display:flex;align-items:center;justify-content:center}
-    .heart{
-      width*
+    .caution {
+      position:absolute;width:420px;height:54px;left:50%;top:50%;transform-origin:center;z-index:3;pointer-events:none;
+      display:flex;align-items:center;justify-content:center;color:var(--caution-black);font-weight:900;letter-spacing:1px;text-transform:uppercase;
+      border-radius:8px;box-shadow:0 18px 40px rgba(0,0,0,0.25);
+    }
+    .caution.top{ transform: translate(-44%, -40%) rotate(-28deg);
+      background: repeating-linear-gradient(135deg, var(--caution-yellow) 0 14px, var(--caution-black) 14px 28px);
+      transition: transform 700ms cubic-bezier(.2,.9,.3,1), opacity 420ms; padding:10px 8px;
+    }
+    .caution.bottom{ transform: translate(18%, 36%) rotate(-28deg);
+      background: repeating-linear-gradient(135deg, var(--caution-yellow) 0 14px, var(--caution-black) 14px 28px);
+      transition: transform 700ms cubic-bezier(.2,.9,.3,1), opacity 420ms; padding:10px 8px;
+    }
+    .photo-wrap.opened .caution.top { transform: translate(-260%, -160%) rotate(-28deg); opacity:0; }
+    .photo-wrap.opened .caution.bottom { transform: translate(260%, 160%) rotate(-28deg); opacity:0; }
+
+    .message{
+      max-width:740px; font-size:18px; line-height:1.45; color:rgba(20,6,30,0.96);
+      min-height:120px; white-space:pre-wrap; padding: 0 12px;
+      text-shadow: 0 6px 18px rgba(255,255,255,0.6);
+    }
+    .subtitle{font-size:14px;color:rgba(30,10,40,0.8);opacity:0.95}
+
+    /* confirmation overlay */
+    .confirm-overlay{ position:fixed; inset:0; display:none; align-items:center; justify-content:center; background:rgba(6,6,10,0.42); z-index:9999; }
+    .confirm{ width:92%; max-width:420px; background:linear-gradient(180deg, rgba(255,255,255,0.95), rgba(250,240,255,0.9)); padding:20px; border-radius:12px; text-align:center; color:#2b153f; box-shadow:0 18px 80px rgba(0,0,0,0.16); border:1px solid rgba(0,0,0,0.03); }
+    .confirm h2{margin:6px 0 10px;font-size:20px;color:#2b153f}
+    .confirm .actions{display:flex;gap:12px;justify-content:center}
+    .btn{background:#2b153f;color:#fff;border:0;padding:10px 14px;border-radius:10px;font-weight:700;cursor:pointer}
+    .btn.ghost{background:transparent;color:#2b153f;border:1px solid rgba(0,0,0,0.06)}
+
+    @media(max-width:560px){
+      .photo-wrap{width:300px;height:300px}
+      .caution{width:320px;height:44px}
+    }
+  </style>
+</head>
+<body>
+  <div class="stage" aria-live="polite">
+    <div class="photo-wrap" id="photoWrap" title="Private surprise">
+      <!-- symmetric SVG heart -->
+      <svg class="heart-svg" id="heart" viewBox="0 0 24 24" role="button" tabindex="0" aria-label="Click to open the heart">
+        <defs>
+          <linearGradient id="grad" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#ffd0f0"/><stop offset="1" stop-color="#ff8fbf"/></linearGradient>
+          <filter id="drop"><feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#000" flood-opacity="0.12"/></filter>
+        </defs>
+        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" fill="url(#grad)" filter="url(#drop)"/>
+      </svg>
+
+      <div class="caution top">TOP SECRET</div>
+      <div class="caution bottom">TOP SECRET</div>
+    </div>
+
+    <div class="message" id="greeting" aria-live="polite"></div>
+    <div class="subtitle hint">Click the heart when you're ready — it's only for her.</div>
+  </div>
+
+  <!-- confirmation modal -->
+  <div class="confirm-overlay" id="confirmOverlay" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="confirm" role="document">
+      <h2>Are you ready?</h2>
+      <p>This is top secret — only for my girlfriend. Do you want to open it now?</p>
+      <div class="actions">
+        <button class="btn" id="confirmYes">Yes — Open</button>
+        <button class="btn ghost" id="confirmNo">Not yet</button>
+      </div>
+    </div>
+  </div>
+
+  <canvas id="confetti" style="pointer-events:none"></canvas>
+
+  <script>
+    // Messages
+    const introText = "Hello loveyyy koo, I know this isn't much it's not a flowers either. I know po you're not a materialstic person, that's why i wanna suprise you with this hihihi\n\nWARNING: TOP SECRET — only for my girlfriend.";
+    const revealText = `We're almost 1 year na Loveyyy and it's been my happiest year together with you. every day, every second of life talking to you makes me feel at ease every time, you remove all of my problems even until now still you gave me you're endless. Every day i always think to myself im lucky to have you in my life, lahat na sayo na po, im really really grateful you gave me a lot of chance to prove my self i can change. And you always believe me that i can do all of the impossible things in my life. I loveee youu so muchhh and alwayysss and to infinity and beyond my loveyyy, babyyy, darlingg, wifeyyy, sugarplum, honeybunch,love love koo`;
+
+    // DOM refs
+    const heart = document.getElementById('heart');
+    const greeting = document.getElementById('greeting');
+    const photoWrap = document.getElementById('photoWrap');
+    const overlay = document.getElementById('confirmOverlay');
+    const confirmYes = document.getElementById('confirmYes');
+    const confirmNo = document.getElementById('confirmNo');
+
+    // initial
+    let revealed = false;
+    greeting.textContent = introText;
+
+    // confetti canvas
+    const canvas = document.getElementById('confetti');
+    const ctx = canvas.getContext('2d');
+    let confettiPieces = [], confettiAnim = null;
+    function resizeCanvas(){ canvas.width = innerWidth; canvas.height = innerHeight; canvas.style.position='fixed'; canvas.style.left='0'; canvas.style.top='0'; canvas.style.pointerEvents='none'; canvas.style.zIndex=9998; }
+    addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    function makeConfetti(count = 120){
+      confettiPieces = [];
+      const colors = ['#ffd0f0','#ffd6e6','#ffeecf','#e7ffe8','#dff0ff','#f3d7ff'];
+      for(let i=0;i<count;i++){
+        confettiPieces.push({
+          x: Math.random()*canvas.width,
+          y: Math.random()*-canvas.height,
+          r: Math.random()*8+4,
+          d: Math.random()*40+10,
+          tilt: Math.random()*10-10,
+          color: colors[Math.floor(Math.random()*colors.length)],
+          speedY: 2+Math.random()*4,
+          spin: (Math.random()*0.12)-0.06
+        });
+      }
+    }
+
+    function runConfetti(duration=4800){
+      makeConfetti(160);
+      const start = performance.now();
+      function loop(){
+        ctx.clearRect(0,0,canvas.width,canvas.height);
+        for(const p of confettiPieces){
+          p.x += Math.sin(p.d) * 0.7 + p.spin*10;
+          p.y += p.speedY;
+          p.tilt += 0.1;
+          ctx.fillStyle = p.color;
+          ctx.beginPath();
+          ctx.ellipse(p.x + Math.sin(p.tilt)*6, p.y, p.r, p.r*0.6, p.tilt, 0, Math.PI*2);
+          ctx.fill();
+        }
+        confettiPieces = confettiPieces.filter(p => p.y - p.r < canvas.height + 40);
+        if(performance.now() - start < duration){
+          confettiAnim = requestAnimationFrame(loop);
+        } else {
+          cancelAnimationFrame(confettiAnim);
+          ctx.clearRect(0,0,canvas.width,canvas.height);
+        }
+      }
+      confettiAnim = requestAnimationFrame(loop);
+    }
+
+    // typewriter
+    async function typeMessage(text, el, speed=18){
+      el.textContent = '';
+      for(let i=0;i<=text.length;i++){
+        el.textContent = text.slice(0,i);
+        await new Promise(r => setTimeout(r, speed));
+      }
+    }
+
+    // WebAudio-based peel + chime (no external files)
+    let audioCtx = null;
+    function ensureAudio(){ if(!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)(); return audioCtx; }
+
+    function playPeelSound(){
+      const ctx = ensureAudio();
+      const now = ctx.currentTime;
+      // noise burst
+      const bufferSize = ctx.sampleRate * 0.55;
+      const noiseBuffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+      const data = noiseBuffer.getChannelData(0);
+      for(let i=0;i<bufferSize;i++) data[i] = (Math.random()*2-1) * (1 - i/bufferSize);
+      const noise = ctx.createBufferSource();
+      noise.buffer = noiseBuffer;
+      const noiseFilter = ctx.createBiquadFilter();
+      noiseFilter.type = 'bandpass';
+      noiseFilter.frequency.value = 1500;
+      noiseFilter.Q.value = 0.7;
+      const noiseGain = ctx.createGain();
+      noiseGain.gain.setValueAtTime(0.0001, now);
+      noiseGain.gain.exponentialRampToValueAtTime(0.8, now + 0.02);
+      noiseGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.6);
+      noise.connect(noiseFilter).connect(noiseGain).connect(ctx.destination);
+      noise.start(now);
+      noise.stop(now + 0.65);
+
+      // descending oscillator "peel"
+      const osc = ctx.createOscillator();
+      osc.type = 'sawtooth';
+      osc.frequency.setValueAtTime(1200, now);
+      osc.frequency.exponentialRampToValueAtTime(260, now + 0.6);
+      const oscGain = ctx.createGain();
+      oscGain.gain.setValueAtTime(0.0001, now);
+      oscGain.gain.exponentialRampToValueAtTime(0.6, now + 0.03);
+      oscGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.6);
+      const lp = ctx.createBiquadFilter();
+      lp.type = 'lowpass'; lp.frequency.value = 2200;
+      osc.connect(lp).connect(oscGain).connect(ctx.destination);
+      osc.start(now); osc.stop(now + 0.65);
+    }
+
+    function playChime(){
+      const ctx = ensureAudio();
+      const now = ctx.currentTime;
+      const freqs = [880, 1320, 1760];
+      const master = ctx.createGain();
+      master.gain.setValueAtTime(0.0001, now);
+      master.gain.linearRampToValueAtTime(0.9, now + 0.01);
+      master.gain.exponentialRampToValueAtTime(0.0001, now + 2.2);
+      master.connect(ctx.destination);
+
+      freqs.forEach((f, i) => {
+        const o = ctx.createOscillator();
+        o.type = i === 0 ? 'sine' : 'triangle';
+        o.frequency.setValueAtTime(f, now);
+        o.detune.setValueAtTime((i-1)*6, now);
+
+        const g = ctx.createGain();
+        g.gain.setValueAtTime(0.0001, now);
+        g.gain.exponentialRampToValueAtTime(0.45 - i*0.08, now + 0.02);
+        g.gain.exponentialRampToValueAtTime(0.0001, now + 1.8);
+
+        const hp = ctx.createBiquadFilter(); hp.type = 'highshelf'; hp.frequency.value = 1200; hp.gain.value = 6;
+
+        o.connect(g).connect(hp).connect(master);
+        o.start(now + i*0.02);
+        o.stop(now + 2.0);
+      });
+    }
+
+    // reveal sequence
+    async function doReveal(){
+      if(revealed) return;
+      revealed = true;
+      ensureAudio().resume().catch(()=>{});
+      playPeelSound();
+      photoWrap.classList.add('opened');
+      document.querySelector('.heart-svg').classList.add('pulse');
+      await new Promise(r => setTimeout(r, 700));
+      await typeMessage(revealText, greeting, 18);
+      playChime();
+      runConfetti(5200);
+      setTimeout(()=>document.querySelector('.heart-svg').classList.remove('pulse'), 3200);
+    }
+
+    // overlay controls
+    function showConfirm(){ overlay.style.display = 'flex'; overlay.setAttribute('aria-hidden','false'); confirmYes.focus(); }
+    function hideConfirm(){ overlay.style.display = 'none'; overlay.setAttribute('aria-hidden','true'); }
+
+    heart.addEventListener('click', ()=>{ if(!revealed) showConfirm(); else resetAll(); });
+    heart.addEventListener('keydown', (e)=>{ if(!revealed && (e.key === 'Enter' || e.key === ' ')){ e.preventDefault(); showConfirm(); } else if(revealed && (e.key === 'Enter' || e.key === ' ')){ resetAll(); } });
+
+    confirmYes.addEventListener('click', ()=>{ hideConfirm(); doReveal(); });
+    confirmNo.addEventListener('click', ()=>{ hideConfirm(); });
+
+    // reset back to intro
+    function resetAll(){
+      confettiPieces = []; ctx.clearRect(0,0,canvas.width,canvas.height);
+      photoWrap.classList.remove('opened');
+      greeting.textContent = introText;
+      revealed = false;
+      document.querySelector('.heart-svg').classList.remove('pulse');
+    }
+
+    // keyboard: 'r' resets
+    window.addEventListener('keydown', (e)=>{ if(e.key.toLowerCase()==='r'){ resetAll(); } });
+
+    // make heart keyboard-focusable
+    heart.setAttribute('tabindex','0');
+
+  </script>
+</body>
+</html>
