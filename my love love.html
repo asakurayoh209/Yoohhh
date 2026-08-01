@@ -1,0 +1,365 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Happy Girlfriend's Day</title>
+  <style>
+    :root{
+      --bg:#0c1021;
+      --card:#111328cc;
+      --accent:#ff6b9a;
+      --muted:#cbd5e1;
+    }
+    html,body{height:100%;margin:0;font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;}
+    body{
+      background: radial-gradient(1200px 600px at 10% 10%, #15203a 0%, transparent 20%),
+                  radial-gradient(900px 400px at 90% 90%, #221133 0%, transparent 20%),
+                  var(--bg);
+      display:flex;align-items:center;justify-content:center;padding:20px;color:var(--muted);
+    }
+    .card{
+      width:100%;max-width:880px;background:linear-gradient(180deg, rgba(255,255,255,0.03), rgba(0,0,0,0.05));
+      border-radius:18px;padding:28px;box-shadow:0 10px 40px rgba(2,6,23,0.6);position:relative;overflow:hidden;
+      backdrop-filter: blur(6px);
+      border:1px solid rgba(255,255,255,0.03);
+    }
+    header{display:flex;gap:16px;align-items:center;margin-bottom:18px;}
+    .logo{
+      width:62px;height:62px;border-radius:12px;background:linear-gradient(135deg,var(--accent),#ffb3d0);display:flex;align-items:center;justify-content:center;font-weight:700;color:white;font-size:28px;box-shadow:0 6px 20px rgba(255,107,154,0.18);
+    }
+    h1{margin:0;font-size:1.6rem;color:#fff}
+    p.lead{margin:4px 0 0;color:rgba(255,255,255,0.75)}
+    .layout{display:grid;grid-template-columns:1fr 380px;gap:20px;align-items:stretch;}
+    @media(max-width:900px){ .layout{grid-template-columns:1fr; } .preview{order:-1} }
+
+    .left{padding:10px}
+    .controls{display:flex;flex-direction:column;gap:10px;margin-top:8px}
+    label{font-size:0.9rem;color:var(--muted)}
+    input[type="text"], input[type="file"], textarea, select{
+      width:100%;padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,0.06);background:transparent;color:var(--muted);
+      outline:none;font-size:0.95rem;
+    }
+    .row{display:flex;gap:10px}
+    button{
+      background:linear-gradient(90deg,var(--accent),#ff9fc9);border:0;padding:10px 14px;border-radius:12px;color:white;font-weight:600;cursor:pointer;
+      box-shadow:0 8px 18px rgba(255,107,154,0.18);
+    }
+    button.ghost{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--muted);box-shadow:none}
+
+    /* preview */
+    .preview{padding:18px;border-radius:12px;background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);display:flex;flex-direction:column;align-items:center;gap:14px;min-height:420px;justify-content:center}
+    .photo-wrap{width:240px;height:240px;border-radius:20px;overflow:hidden;display:flex;align-items:center;justify-content:center;border:6px solid rgba(255,255,255,0.03);background:linear-gradient(180deg,#111428,#0f1124);}
+    .photo-wrap img{width:100%;height:100%;object-fit:cover;display:block}
+    /* CSS heart */
+    .heart{
+      width:150px;height:150px;position:relative;transform:scale(1);transition:transform .25s;cursor:pointer;
+    }
+    .heart:before,.heart:after{
+      content:"";position:absolute;left:50%;top:50%;width:100px;height:100px;background:var(--accent);border-radius:50%;transform-origin:0 0;
+      box-shadow:0 12px 30px rgba(255,107,154,0.25), inset 0 -6px 10px rgba(255,255,255,0.03);
+    }
+    .heart:before{transform:translate(-50%,-50%) rotate(-45deg);}
+    .heart:after{transform:translate(-50%,-50%) rotate(45deg);}
+    .heart-core{position:absolute;left:50%;top:50%;width:100px;height:100px;background:var(--accent);transform:translate(-50%,-50%) rotate(0deg);clip-path:polygon(50% 6%, 90% 35%, 70% 82%, 50% 100%, 30% 82%, 10% 35%);filter:drop-shadow(0 8px 22px rgba(255,107,154,0.16));}
+    .heart.pulse{animation:pulse 1s infinite;}
+    @keyframes pulse{0%{transform:scale(1)}50%{transform:scale(1.06)}100%{transform:scale(1)}}
+
+    .message{font-size:1.02rem;text-align:center;padding:0 12px;color:#fff;min-height:120px;white-space:pre-wrap}
+    .sub{color:var(--muted);font-size:0.9rem;text-align:center}
+    .tiny{font-size:0.8rem;color:rgba(255,255,255,0.6)}
+
+    .controls .actions{display:flex;gap:8px;flex-wrap:wrap}
+  </style>
+</head>
+<body>
+  <div class="card" role="main" aria-labelledby="title">
+    <header>
+      <div class="logo">♥</div>
+      <div>
+        <h1 id="title">Happy Girlfriend's Day</h1>
+        <p class="lead">Open the heart when you're ready to surprise her.</p>
+      </div>
+    </header>
+
+    <div class="layout">
+      <section class="left" aria-label="Controls">
+        <label for="name">Name to call her (e.g. "Anna")</label>
+        <input id="name" type="text" placeholder="Her name" value="Love" />
+
+        <label for="message">Optional custom message (not required)</label>
+        <textarea id="message" rows="3" placeholder="Write something sweet...">You can leave this empty — the prewritten message will be shown when the heart opens.</textarea>
+
+        <label for="photo">Optional photo (shows on the card)</label>
+        <input id="photo" type="file" accept="image/*" />
+
+        <label for="music">Optional music (paste a URL to an mp3)</label>
+        <input id="music" type="text" placeholder="https://example.com/song.mp3" />
+
+        <div class="controls">
+          <div class="actions">
+            <button id="surprise">Surprise!</button>
+            <button id="stop" class="ghost">Stop</button>
+            <button id="download" class="ghost">Download as PNG</button>
+          </div>
+          <div class="tiny">Tip: The intro text will be visible before opening the heart. Click the heart or "Surprise!" to reveal the message.</div>
+        </div>
+      </section>
+
+      <aside class="preview" aria-label="Preview">
+        <div class="photo-wrap" id="photoWrap" title="Photo">
+          <div class="heart" id="heart" aria-label="Click to open the heart">
+            <div class="heart-core"></div>
+          </div>
+        </div>
+        <div class="message" id="greeting" aria-live="polite"></div>
+        <div class="sub" id="subtext">— prepared with ♥</div>
+      </aside>
+    </div>
+  </div>
+
+  <!-- confetti canvas -->
+  <canvas id="confetti"></canvas>
+
+  <!-- Audio (will be set by JS if user provides URL) -->
+  <audio id="audio" preload="auto"></audio>
+
+  <script>
+    // User-provided intro and reveal message (exact text from your message)
+    const introText = "Hello loveyyy koo, I know this isn't much it's not a flowers either. I know po you're not a materialstic person, that's why i wanna suprise you with this hihihi";
+    const revealText = `We're almost 1 year na Loveyyy and it's been my happiest year together with you. every day, every second of life talking to you makes me feel at ease every time, you remove all of my problems even until now still you gave me you're endless. Every day i always think to myself im lucky to have you in my life, lahat na sayo na po, im really really grateful you gave me a lot of chance to prove my self i can change. And you always believe me that i can do all of the impossible things in my life. I loveee youu so muchhh and alwayysss and to infinity and beyond my loveyyy, babyyy, darlingg, wifeyyy, sugarplum, honeybunch,love love koo`;
+
+    // DOM refs
+    const nameInput = document.getElementById('name');
+    const msgInput = document.getElementById('message');
+    const photoInput = document.getElementById('photo');
+    const musicInput = document.getElementById('music');
+    const surpriseBtn = document.getElementById('surprise');
+    const stopBtn = document.getElementById('stop');
+    const downloadBtn = document.getElementById('download');
+    const heart = document.getElementById('heart');
+    const greeting = document.getElementById('greeting');
+    const subtext = document.getElementById('subtext');
+    const photoWrap = document.getElementById('photoWrap');
+    const audio = document.getElementById('audio');
+
+    // Set initial intro text on load
+    function setIntro(){
+      greeting.textContent = introText;
+    }
+    setIntro();
+
+    // Canvas confetti setup
+    const canvas = document.getElementById('confetti');
+    const ctx = canvas.getContext('2d');
+    let confettiPieces = [], confettiAnim = null;
+
+    function resizeCanvas(){
+      canvas.width = innerWidth;
+      canvas.height = innerHeight;
+      canvas.style.position = 'fixed';
+      canvas.style.left = '0';
+      canvas.style.top = '0';
+      canvas.style.pointerEvents = 'none';
+      canvas.style.zIndex = 9999;
+    }
+    addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    function makeConfetti(count = 80){
+      confettiPieces = [];
+      const colors = ['#ff6b9a','#ffd166','#6ee7b7','#7ad1ff','#c084fc','#ff9fc9'];
+      for(let i=0;i<count;i++){
+        confettiPieces.push({
+          x: Math.random()*canvas.width,
+          y: Math.random()*-canvas.height,
+          r: Math.random()*8+4,
+          d: Math.random()*40+10,
+          tilt: Math.random()*10-10,
+          color: colors[Math.floor(Math.random()*colors.length)],
+          speedY: 2+Math.random()*4,
+          spin: (Math.random()*0.12)-0.06
+        });
+      }
+    }
+
+    function runConfetti(duration = 4500){
+      makeConfetti(120);
+      const start = performance.now();
+      function loop(){
+        ctx.clearRect(0,0,canvas.width,canvas.height);
+        for(const p of confettiPieces){
+          p.x += Math.sin(p.d) * 0.7 + p.spin*10;
+          p.y += p.speedY;
+          p.tilt += 0.1;
+          ctx.fillStyle = p.color;
+          ctx.beginPath();
+          ctx.ellipse(p.x + Math.sin(p.tilt)*6, p.y, p.r, p.r*0.6, p.tilt, 0, Math.PI*2);
+          ctx.fill();
+        }
+        confettiPieces = confettiPieces.filter(p => p.y - p.r < canvas.height + 40);
+        if(performance.now() - start < duration){
+          confettiAnim = requestAnimationFrame(loop);
+        } else {
+          cancelAnimationFrame(confettiAnim);
+          ctx.clearRect(0,0,canvas.width,canvas.height);
+        }
+      }
+      confettiAnim = requestAnimationFrame(loop);
+    }
+
+    // Typewriter effect (handles multiline)
+    async function typeMessage(text, el, speed=18){
+      el.textContent = '';
+      for(let i=0;i<=text.length;i++){
+        el.textContent = text.slice(0,i);
+        await new Promise(r => setTimeout(r, speed));
+      }
+    }
+
+    // Photo handling
+    photoInput.addEventListener('change', (e)=>{
+      const f = e.target.files && e.target.files[0];
+      if(!f) return;
+      const url = URL.createObjectURL(f);
+      photoWrap.innerHTML = `<img src="${url}" alt="Photo" />`;
+    });
+
+    // Reveal function used by both heart click and Surprise button
+    let revealed = false;
+    async function reveal(){
+      if(revealed) return;
+      revealed = true;
+      heart.classList.add('pulse');
+      const n = (nameInput.value || '').trim();
+      // if user provided a custom message in textarea, prefer it; else use the provided revealText
+      const custom = (msgInput.value || '').trim();
+      const raw = custom || revealText;
+      const formatted = n ? raw.replace(/\{name\}/gi, n) : raw;
+      subtext.textContent = `For ${n || 'my Love'} — with love ♥`;
+      await typeMessage(formatted, greeting, 18);
+      runConfetti(5200);
+      setTimeout(()=>heart.classList.remove('pulse'), 3500);
+
+      // Play music if URL provided
+      const musicUrl = musicInput.value.trim();
+      if(musicUrl){
+        try {
+          audio.src = musicUrl;
+          audio.volume = 0.9;
+          audio.play().catch(()=>console.info('Autoplay prevented; user interaction required.'));
+        } catch(e){
+          console.warn('Failed to play audio', e);
+        }
+      }
+    }
+
+    // Wire heart and button
+    heart.addEventListener('click', reveal);
+    surpriseBtn.addEventListener('click', reveal);
+
+    // Stop action stops music and confetti and resets to intro
+    stopBtn.addEventListener('click', ()=>{
+      audio.pause(); audio.currentTime = 0;
+      confettiPieces = [];
+      ctx.clearRect(0,0,canvas.width,canvas.height);
+      heart.classList.remove('pulse');
+      greeting.textContent = 'Stopped.';
+      subtext.textContent = '—';
+      // reset after a short delay back to intro so she can open again
+      setTimeout(()=>{ revealed = false; setIntro(); subtext.textContent = '— prepared with ♥'; }, 1200);
+    });
+
+    // Download an image of the preview (simple rasterization)
+    downloadBtn.addEventListener('click', async ()=>{
+      const w = 1200, h = 800;
+      const out = document.createElement('canvas');
+      out.width = w; out.height = h;
+      const octx = out.getContext('2d');
+
+      // background
+      const grad = octx.createLinearGradient(0,0,w,h);
+      grad.addColorStop(0,'#111428'); grad.addColorStop(1,'#0f1124');
+      octx.fillStyle = grad; octx.fillRect(0,0,w,h);
+
+      // photo if exists
+      const imgEl = photoWrap.querySelector('img');
+      if(imgEl && imgEl.complete){
+        const px = 70, py = 70, pw = 360, ph = 360;
+        octx.save();
+        roundRect(octx, px,py,pw,ph,24);
+        octx.clip();
+        octx.drawImage(imgEl, px,py,pw,ph);
+        octx.restore();
+      }
+
+      // heart (simple)
+      octx.fillStyle = '#ff6b9a';
+      octx.beginPath();
+      octx.translate(880, 240);
+      octx.scale(1.6,1.6);
+      octx.moveTo(0,0);
+      octx.bezierCurveTo(0,-30,-40,-30,-40,0);
+      octx.bezierCurveTo(-40,30,0,50,0,70);
+      octx.bezierCurveTo(0,50,40,30,40,0);
+      octx.bezierCurveTo(40,-30,0,-30,0,0);
+      octx.fill();
+      octx.setTransform(1,0,0,1,0,0);
+
+      // title text
+      octx.fillStyle = '#fff';
+      octx.font = '48px serif';
+      octx.fillText('Happy Girlfriend\'s Day', 70, 520);
+
+      // main displayed message (use current greeting text)
+      octx.font = '28px serif';
+      const lines = wrapText(octx, (greeting.textContent || ''), w - 140);
+      let ly = 560;
+      for(const ln of lines){
+        octx.fillText(ln, 70, ly);
+        ly += 36;
+      }
+
+      // export
+      const link = document.createElement('a');
+      link.download = 'girlfriends-day.png';
+      link.href = out.toDataURL('image/png');
+      link.click();
+    });
+
+    // small helper to wrap
+    function wrapText(ctx, text, maxWidth){
+      const words = String(text).split(' ');
+      const lines = [];
+      let cur = '';
+      for(const w of words){
+        const test = cur ? cur + ' ' + w : w;
+        if(ctx.measureText(test).width > maxWidth){
+          if(cur) lines.push(cur);
+          cur = w;
+        } else cur = test;
+      }
+      if(cur) lines.push(cur);
+      return lines;
+    }
+
+    // helper to draw rounded rect on canvas
+    function roundRect(ctx,x,y,w,h,r){
+      if(typeof r === 'undefined') r = 8;
+      ctx.beginPath();
+      ctx.moveTo(x+r,y);
+      ctx.arcTo(x+w,y,x+w,y+h,r);
+      ctx.arcTo(x+w,y+h,x,y+h,r);
+      ctx.arcTo(x,y+h,x,y,r);
+      ctx.arcTo(x,y,x+w,y,r);
+      ctx.closePath();
+    }
+
+    // polyfill for CanvasRenderingContext2D.roundRect if desired
+    CanvasRenderingContext2D.prototype.roundRect = CanvasRenderingContext2D.prototype.roundRect || function(x,y,w,h,r){
+      roundRect(this,x,y,w,h,r);
+    };
+
+  </script>
+</body>
+</html>
