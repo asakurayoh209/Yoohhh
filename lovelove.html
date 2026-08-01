@@ -1,0 +1,489 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Happy Girlfriend's Day (Editable)</title>
+  <style>
+    :root{
+      --bg:#0c1021;
+      --card:#111328cc;
+      --accent:#ff6b9a;
+      --muted:#cbd5e1;
+    }
+    html,body{height:100%;margin:0;font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;}
+    body{
+      background: radial-gradient(1200px 600px at 10% 10%, #15203a 0%, transparent 20%),
+                  radial-gradient(900px 400px at 90% 90%, #221133 0%, transparent 20%),
+                  var(--bg);
+      display:flex;align-items:center;justify-content:center;padding:20px;color:var(--muted);
+    }
+    .card{
+      width:100%;max-width:940px;background:linear-gradient(180deg, rgba(255,255,255,0.03), rgba(0,0,0,0.05));
+      border-radius:18px;padding:28px;box-shadow:0 10px 40px rgba(2,6,23,0.6);position:relative;overflow:hidden;
+      backdrop-filter: blur(6px);
+      border:1px solid rgba(255,255,255,0.03);
+    }
+    header{display:flex;gap:16px;align-items:center;margin-bottom:18px;}
+    .logo{
+      width:62px;height:62px;border-radius:12px;background:linear-gradient(135deg,var(--accent),#ffb3d0);display:flex;align-items:center;justify-content:center;font-weight:700;color:white;font-size:28px;box-shadow:0 6px 20px rgba(255,107,154,0.18);
+    }
+    h1{margin:0;font-size:1.6rem;color:#fff}
+    p.lead{margin:4px 0 0;color:rgba(255,255,255,0.75)}
+    .layout{display:grid;grid-template-columns:1fr 420px;gap:20px;align-items:stretch;}
+    @media(max-width:900px){ .layout{grid-template-columns:1fr; } .preview{order:-1} }
+
+    .left{padding:10px}
+    .controls{display:flex;flex-direction:column;gap:10px;margin-top:8px}
+    label{font-size:0.9rem;color:var(--muted)}
+    input[type="text"], input[type="file"], textarea, select{
+      width:100%;padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,0.06);background:transparent;color:var(--muted);
+      outline:none;font-size:0.95rem;
+    }
+    .row{display:flex;gap:10px}
+    button{
+      background:linear-gradient(90deg,var(--accent),#ff9fc9);border:0;padding:10px 14px;border-radius:12px;color:white;font-weight:600;cursor:pointer;
+      box-shadow:0 8px 18px rgba(255,107,154,0.18);
+    }
+    button.ghost{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--muted);box-shadow:none}
+
+    /* preview */
+    .preview{padding:18px;border-radius:12px;background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);display:flex;flex-direction:column;align-items:center;gap:14px;min-height:480px;justify-content:flex-start}
+    .photo-wrap{width:260px;height:260px;border-radius:20px;overflow:hidden;display:flex;align-items:center;justify-content:center;border:6px solid rgba(255,255,255,0.03);background:linear-gradient(180deg,#111428,#0f1124);}
+    .photo-wrap img{width:100%;height:100%;object-fit:cover;display:block}
+    /* CSS heart */
+    .heart{
+      width:150px;height:150px;position:relative;transform:scale(1);transition:transform .25s;
+    }
+    .heart:before,.heart:after{
+      content:"";position:absolute;left:50%;top:50%;width:100px;height:100px;background:var(--accent);border-radius:50%;transform-origin:0 0;
+      box-shadow:0 12px 30px rgba(255,107,154,0.25), inset 0 -6px 10px rgba(255,255,255,0.03);
+    }
+    .heart:before{transform:translate(-50%,-50%) rotate(-45deg);}
+    .heart:after{transform:translate(-50%,-50%) rotate(45deg);}
+    .heart-core{position:absolute;left:50%;top:50%;width:100px;height:100px;background:var(--accent);transform:translate(-50%,-50%) rotate(0deg);clip-path:polygon(50% 6%, 90% 35%, 70% 82%, 50% 100%, 30% 82%, 10% 35%);filter:drop-shadow(0 8px 22px rgba(255,107,154,0.16));}
+    .heart.pulse{animation:pulse 1s infinite;}
+    @keyframes pulse{0%{transform:scale(1)}50%{transform:scale(1.06)}100%{transform:scale(1)}}
+
+    .message{font-size:1.1rem;text-align:center;padding:0 8px;color:#fff;min-height:64px}
+    .sub{color:var(--muted);font-size:0.9rem;text-align:center}
+    .tiny{font-size:0.8rem;color:rgba(255,255,255,0.6)}
+
+    /* editable note */
+    .note {
+      width:88%;min-height:80px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border-radius:12px;padding:12px 14px;color:var(--muted);box-shadow:inset 0 1px 0 rgba(255,255,255,0.02), 0 6px 18px rgba(2,6,23,0.4);
+      border:1px dashed rgba(255,255,255,0.03);outline:none;white-space:pre-wrap;overflow:auto;
+    }
+    .note[contenteditable="true"]{border:1px solid rgba(255,107,154,0.18);color:#fff}
+    .note-placeholder{color:rgba(255,255,255,0.35)}
+    .note-controls{display:flex;gap:8px;align-items:center;margin-top:6px}
+    .status {font-size:0.8rem;color:var(--muted);margin-left:auto}
+
+    /* small controls */
+    .controls .actions{display:flex;gap:8px;flex-wrap:wrap}
+  </style>
+</head>
+<body>
+  <div class="card" role="main" aria-labelledby="title">
+    <header>
+      <div class="logo">♥</div>
+      <div>
+        <h1 id="title">Happy Girlfriend's Day</h1>
+        <p class="lead">Make a personal surprise — customize the message, add a photo, and keep a persistent note.</p>
+      </div>
+    </header>
+
+    <div class="layout">
+      <section class="left" aria-label="Controls">
+        <label for="name">Name to call her (e.g. "Anna")</label>
+        <input id="name" type="text" placeholder="Her name" value="Love" />
+
+        <label for="message">Message (press Surprise!)</label>
+        <textarea id="message" rows="3" placeholder="Write something sweet...">Every day with you feels like a dream. Happy Girlfriend's Day — I love you!</textarea>
+
+        <label for="photo">Optional photo (shows on the card)</label>
+        <input id="photo" type="file" accept="image/*" />
+
+        <label for="music">Optional music (paste a URL to an mp3)</label>
+        <input id="music" type="text" placeholder="https://example.com/song.mp3" />
+
+        <div class="controls">
+          <div class="actions">
+            <button id="surprise">Surprise!</button>
+            <button id="stop" class="ghost">Stop</button>
+            <button id="download" class="ghost">Download as PNG</button>
+          </div>
+          <div class="tiny">Tip: Add a photo and a short message. The sticky note on the right is editable and saved automatically.</div>
+        </div>
+      </section>
+
+      <aside class="preview" aria-label="Preview">
+        <div class="photo-wrap" id="photoWrap" title="Photo">
+          <!-- image or heart -->
+          <div class="heart" id="heart">
+            <div class="heart-core"></div>
+          </div>
+        </div>
+
+        <div class="message" id="greeting">Click "Surprise!" to reveal your message</div>
+        <div class="sub" id="subtext">— prepared with ♥</div>
+
+        <!-- Editable persistent note -->
+        <div style="width:100%;display:flex;flex-direction:column;align-items:center;margin-top:8px">
+          <div id="editableNote" class="note" contenteditable="false" aria-label="Editable note" role="textbox"></div>
+          <div class="note-controls" style="width:88%;display:flex;align-items:center">
+            <button id="editNote" class="ghost">Edit note</button>
+            <button id="saveNote" class="ghost">Save / Lock</button>
+            <div class="status" id="noteStatus">Saved</div>
+          </div>
+        </div>
+
+      </aside>
+    </div>
+  </div>
+
+  <!-- confetti canvas -->
+  <canvas id="confetti"></canvas>
+
+  <!-- Audio (will be set by JS if user provides URL) -->
+  <audio id="audio" preload="auto"></audio>
+
+  <script>
+    // Basic DOM refs
+    const nameInput = document.getElementById('name');
+    const msgInput = document.getElementById('message');
+    const photoInput = document.getElementById('photo');
+    const musicInput = document.getElementById('music');
+    const surpriseBtn = document.getElementById('surprise');
+    const stopBtn = document.getElementById('stop');
+    const downloadBtn = document.getElementById('download');
+    const heart = document.getElementById('heart');
+    const greeting = document.getElementById('greeting');
+    const subtext = document.getElementById('subtext');
+    const photoWrap = document.getElementById('photoWrap');
+    const audio = document.getElementById('audio');
+
+    // Editable note refs
+    const editableNote = document.getElementById('editableNote');
+    const editBtn = document.getElementById('editNote');
+    const saveBtn = document.getElementById('saveNote');
+    const noteStatus = document.getElementById('noteStatus');
+    const NOTE_KEY = 'girlfriends_day_note_v1';
+
+    // Canvas confetti setup
+    const canvas = document.getElementById('confetti');
+    const ctx = canvas.getContext('2d');
+    let confettiPieces = [], confettiAnim = null;
+
+    function resizeCanvas(){
+      canvas.width = innerWidth;
+      canvas.height = innerHeight;
+      canvas.style.position = 'fixed';
+      canvas.style.left = '0';
+      canvas.style.top = '0';
+      canvas.style.pointerEvents = 'none';
+      canvas.style.zIndex = 9999;
+    }
+    addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    function makeConfetti(count = 80){
+      confettiPieces = [];
+      const colors = ['#ff6b9a','#ffd166','#6ee7b7','#7ad1ff','#c084fc','#ff9fc9'];
+      for(let i=0;i<count;i++){
+        confettiPieces.push({
+          x: Math.random()*canvas.width,
+          y: Math.random()*-canvas.height,
+          r: Math.random()*8+4,
+          d: Math.random()*40+10,
+          tilt: Math.random()*10-10,
+          color: colors[Math.floor(Math.random()*colors.length)],
+          speedY: 2+Math.random()*4,
+          spin: (Math.random()*0.12)-0.06
+        });
+      }
+    }
+
+    function runConfetti(duration = 4500){
+      makeConfetti(120);
+      const start = performance.now();
+      function loop(t){
+        ctx.clearRect(0,0,canvas.width,canvas.height);
+        for(const p of confettiPieces){
+          p.x += Math.sin(p.d) * 0.7 + p.spin*10;
+          p.y += p.speedY;
+          p.tilt += 0.1;
+          ctx.fillStyle = p.color;
+          ctx.beginPath();
+          ctx.ellipse(p.x + Math.sin(p.tilt)*6, p.y, p.r, p.r*0.6, p.tilt, 0, Math.PI*2);
+          ctx.fill();
+        }
+        confettiPieces = confettiPieces.filter(p => p.y - p.r < canvas.height + 40);
+        if(performance.now() - start < duration){
+          confettiAnim = requestAnimationFrame(loop);
+        } else {
+          cancelAnimationFrame(confettiAnim);
+          ctx.clearRect(0,0,canvas.width,canvas.height);
+        }
+      }
+      confettiAnim = requestAnimationFrame(loop);
+    }
+
+    // Typewriter effect
+    async function typeMessage(text, el, speed=28){
+      el.textContent = '';
+      for(let i=0;i<=text.length;i++){
+        el.textContent = text.slice(0,i);
+        await new Promise(r => setTimeout(r, speed));
+      }
+    }
+
+    // Photo handling
+    photoInput.addEventListener('change', (e)=>{
+      const f = e.target.files && e.target.files[0];
+      if(!f) return;
+      const url = URL.createObjectURL(f);
+      photoWrap.innerHTML = `<img src="${url}" alt="Photo" />`;
+    });
+
+    // Surprise action
+    surpriseBtn.addEventListener('click', async ()=>{
+      const n = (nameInput.value || 'Love').trim();
+      const raw = (msgInput.value || 'You are wonderful.').trim();
+      const formatted = raw.replace(/\{name\}/gi, n);
+      heart.classList.add('pulse');
+      subtext.textContent = `For ${n} — with love ♥`;
+      await typeMessage(formatted, greeting, 28);
+      // Confetti & heart beat
+      runConfetti(5000);
+      setTimeout(()=>heart.classList.remove('pulse'), 3000);
+
+      // Play audio if provided
+      const musicUrl = musicInput.value.trim();
+      if(musicUrl){
+        try {
+          audio.src = musicUrl;
+          audio.volume = 0.9;
+          audio.play().catch(()=>console.info('Autoplay prevented; user interaction required.'));
+        } catch(e){
+          console.warn('Failed to play audio', e);
+        }
+      }
+    });
+
+    // Stop action stops music and confetti
+    stopBtn.addEventListener('click', ()=>{
+      audio.pause(); audio.currentTime = 0;
+      confettiPieces = [];
+      ctx.clearRect(0,0,canvas.width,canvas.height);
+      heart.classList.remove('pulse');
+      greeting.textContent = 'Stopped.';
+      subtext.textContent = '—';
+    });
+
+    // Download an image of the preview (simple rasterization)
+    downloadBtn.addEventListener('click', async ()=>{
+      const w = 1400, h = 900;
+      const out = document.createElement('canvas');
+      out.width = w; out.height = h;
+      const octx = out.getContext('2d');
+
+      // background
+      const grad = octx.createLinearGradient(0,0,w,h);
+      grad.addColorStop(0,'#111428'); grad.addColorStop(1,'#0f1124');
+      octx.fillStyle = grad; octx.fillRect(0,0,w,h);
+
+      // photo if exists
+      const imgEl = photoWrap.querySelector('img');
+      if(imgEl && imgEl.complete){
+        const px = 80, py = 80, pw = 420, ph = 420;
+        octx.save();
+        octx.beginPath();
+        roundRect(octx, px,py,pw,ph,22);
+        octx.clip();
+        octx.drawImage(imgEl, px,py,pw,ph);
+        octx.restore();
+      }
+
+      // heart (simple)
+      octx.fillStyle = '#ff6b9a';
+      octx.beginPath();
+      octx.translate(1060, 260);
+      octx.scale(1.8,1.8);
+      octx.moveTo(0,0);
+      octx.bezierCurveTo(0,-30,-40,-30,-40,0);
+      octx.bezierCurveTo(-40,30,0,50,0,70);
+      octx.bezierCurveTo(0,50,40,30,40,0);
+      octx.bezierCurveTo(40,-30,0,-30,0,0);
+      octx.fill();
+      octx.setTransform(1,0,0,1,0,0);
+
+      // main text
+      octx.fillStyle = '#fff';
+      octx.font = '56px serif';
+      octx.fillText('Happy Girlfriend\'s Day', 80, 560);
+      octx.font = '32px serif';
+      const lines = wrapText(octx, (greeting.textContent || ''), w - 180);
+      let ly = 610;
+      for(const ln of lines){
+        octx.fillText(ln, 80, ly);
+        ly += 44;
+      }
+
+      // include editable note text on the right
+      const noteText = localStorage.getItem(NOTE_KEY) || '';
+      if(noteText.trim()){
+        octx.fillStyle = '#ffdfe9';
+        octx.font = '22px serif';
+        const noteLines = wrapText(octx, noteText, 360);
+        let ny = 640;
+        // draw a faint note background
+        octx.fillStyle = 'rgba(255,255,255,0.03)';
+        roundRect(octx, 960, 640, 360, Math.max(140, noteLines.length*30 + 20), 14);
+        octx.fill();
+        octx.fillStyle = '#fff';
+        octx.font = '20px serif';
+        for(const ln of noteLines){
+          octx.fillText(ln, 980, ny);
+          ny += 30;
+        }
+      }
+
+      // export
+      const link = document.createElement('a');
+      link.download = 'girlfriends-day.png';
+      link.href = out.toDataURL('image/png');
+      link.click();
+    });
+
+    // small helper to wrap
+    function wrapText(ctx, text, maxWidth){
+      const words = String(text).split(' ');
+      const lines = [];
+      let cur = '';
+      for(const w of words){
+        const test = cur ? cur + ' ' + w : w;
+        if(ctx.measureText(test).width > maxWidth){
+          if(cur) lines.push(cur);
+          cur = w;
+        } else cur = test;
+      }
+      if(cur) lines.push(cur);
+      return lines;
+    }
+
+    // helper to draw rounded rect on canvas
+    function roundRect(ctx,x,y,w,h,r){
+      if(typeof r === 'undefined') r = 8;
+      ctx.beginPath();
+      ctx.moveTo(x+r,y);
+      ctx.arcTo(x+w,y,x+w,y+h,r);
+      ctx.arcTo(x+w,y+h,x,y+h,r);
+      ctx.arcTo(x,y+h,x,y,r);
+      ctx.arcTo(x,y,x+w,y,r);
+      ctx.closePath();
+    }
+
+    // polyfill for CanvasRenderingContext2D.roundRect if desired
+    CanvasRenderingContext2D.prototype.roundRect = CanvasRenderingContext2D.prototype.roundRect || function(x,y,w,h,r){
+      roundRect(this,x,y,w,h,r);
+    };
+
+    // Editable note: persistence + controls
+    function loadNote(){
+      const v = localStorage.getItem(NOTE_KEY);
+      if(v && v.trim()){
+        editableNote.textContent = v;
+        editableNote.classList.remove('note-placeholder');
+      } else {
+        editableNote.textContent = 'Double-click here or press "Edit note" to write a private note (saved automatically).';
+        editableNote.classList.add('note-placeholder');
+      }
+      setStatus('Saved');
+      editableNote.setAttribute('contenteditable','false');
+    }
+
+    let saveTimeout = null;
+    function setStatus(s){
+      noteStatus.textContent = s;
+    }
+
+    function saveNote(){
+      const text = editableNote.textContent || '';
+      // if placeholder text still present, treat as empty
+      if(text.trim() === 'Double-click here or press "Edit note" to write a private note (saved automatically).') {
+        localStorage.removeItem(NOTE_KEY);
+      } else {
+        localStorage.setItem(NOTE_KEY, text);
+      }
+      editableNote.classList.remove('note-placeholder');
+      setStatus('Saved');
+    }
+
+    // enable editing
+    function enableEdit(){
+      editableNote.setAttribute('contenteditable','true');
+      editableNote.focus();
+      // place caret at end
+      document.execCommand('selectAll', false, null);
+      document.getSelection().collapseToEnd();
+      setStatus('Editing...');
+    }
+
+    // disable editing and save
+    function disableEditAndSave(){
+      editableNote.setAttribute('contenteditable','false');
+      saveNote();
+    }
+
+    // debounce autosave during typing
+    editableNote.addEventListener('input', ()=>{
+      setStatus('Unsaved');
+      if(saveTimeout) clearTimeout(saveTimeout);
+      saveTimeout = setTimeout(()=>{
+        saveNote();
+      }, 900);
+    });
+
+    // save on blur
+    editableNote.addEventListener('blur', ()=>{
+      // small delay so clicks on buttons don't interrupt
+      setTimeout(()=>{ disableEditAndSave(); }, 120);
+    });
+
+    // double-click to edit
+    editableNote.addEventListener('dblclick', (e)=>{
+      enableEdit();
+    });
+
+    editBtn.addEventListener('click', (e)=>{
+      enableEdit();
+    });
+
+    saveBtn.addEventListener('click', (e)=>{
+      disableEditAndSave();
+    });
+
+    // Ctrl/Cmd+S to save note when editing
+    addEventListener('keydown', (e)=>{
+      if((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 's'){
+        e.preventDefault();
+        if(editableNote.getAttribute('contenteditable') === 'true'){
+          disableEditAndSave();
+        } else {
+          // toggle to edit
+          enableEdit();
+        }
+      }
+    });
+
+    // initial load
+    loadNote();
+
+    // small demo greeting text on load
+    greeting.textContent = 'Click "Surprise!" to reveal your message';
+
+  </script>
+</body>
+</html>
