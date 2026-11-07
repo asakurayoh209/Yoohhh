@@ -1,15 +1,43 @@
-for (let i = 1; i <= totalItems; i++) {
-    const love = document.createElement("div")
-    love.classname = "love";
-    love.style.setproperty("--i", i)
-    love.innerHTML
-        < div class="love_horizontal" >
-            <div class="love_vertical">
-                <div class="love_word">I love you so much</div>
-        </div>
-</div >
-        `;
-ui.appendChild(love);
-}
+Here’s a valid HTML version using your CSS. I fixed the two CSS issues in your snippet (`50%px` → `50%` and `backface-visability` → `backface-visibility`).
 
+```html name=Index.html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cake Example</title>
+  <style>
+    #cake {
+      display: block;
+      position: relative;
+      margin: -10em auto 0 auto;
+      height: 100%;
+    }
 
+    .fuego {
+      border-radius: 100%;
+      position: absolute;
+      top: -20px;
+      left: 50%;
+      margin-left: 2.6px;
+      width: 6.66666667px;
+      height: 18px;
+      opacity: 1;
+      transition: opacity 0.5s;
+      transform: translateZ(0);
+      backface-visibility: hidden;
+      background: orange;
+      box-shadow: 0 0 8px rgba(255, 140, 0, 0.8);
+    }
+  </style>
+</head>
+<body>
+  <div id="cake">
+    <div class="fuego"></div>
+  </div>
+</body>
+</html>
+```
+
+If you want, I can also turn this into a full birthday cake or candle animation version.
