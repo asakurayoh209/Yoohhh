@@ -1,39 +1,174 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Cake Example</title>
+  <title>Animated Birthday Cake</title>
   <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      margin: 0;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      background: linear-gradient(180deg, #211b3b, #49345d);
+      font-family: system-ui, sans-serif;
+    }
+
+    .scene {
+      text-align: center;
+      color: #fff4d6;
+    }
+
+    h1 {
+      margin: 0 0 2rem;
+      font-size: clamp(1.5rem, 5vw, 2.5rem);
+      text-shadow: 0 2px 12px #ff8cbb;
+    }
+
     #cake {
-      display: block;
       position: relative;
-      margin: -10em auto 0 auto;
-      height: 100%;
+      width: 280px;
+      height: 220px;
+      margin: 0 auto;
+      animation: cake-bob 3s ease-in-out infinite;
+    }
+
+    .cake-body {
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      width: 240px;
+      height: 95px;
+      transform: translateX(-50%);
+      border-radius: 12px 12px 28px 28px;
+      background: linear-gradient(90deg, #e9789d, #ffb1c7 45%, #e9789d);
+      box-shadow: 0 12px 0 #c95d82, 0 22px 24px #120d25;
+    }
+
+    .icing {
+      position: absolute;
+      top: -12px;
+      left: -4px;
+      width: calc(100% + 8px);
+      height: 34px;
+      border-radius: 50% 50% 12px 12px / 70% 70% 14px 14px;
+      background: #fff0dc;
+    }
+
+    .icing::after {
+      content: "";
+      position: absolute;
+      top: 20px;
+      left: 30px;
+      width: 18px;
+      height: 25px;
+      border-radius: 0 0 12px 12px;
+      background: #fff0dc;
+      box-shadow: 55px 5px #fff0dc, 115px -2px #fff0dc, 165px 4px #fff0dc;
+    }
+
+    .sprinkle {
+      position: absolute;
+      z-index: 1;
+      top: 12px;
+      left: 50px;
+      width: 7px;
+      height: 3px;
+      border-radius: 3px;
+      background: #ffcf52;
+      transform: rotate(25deg);
+      box-shadow: 35px 7px #73d6c5, 75px -2px #ff7b91, 115px 8px #8f8bff,
+        145px -3px #ffcf52, 175px 8px #73d6c5;
+    }
+
+    .candle {
+      position: absolute;
+      z-index: 2;
+      bottom: 86px;
+      left: 50%;
+      width: 22px;
+      height: 68px;
+      transform: translateX(-50%);
+      border-radius: 5px 5px 2px 2px;
+      background: repeating-linear-gradient(
+        135deg,
+        #fff4a8 0 8px,
+        #ff8b8b 8px 15px
+      );
+      box-shadow: inset -4px 0 5px #d9777a66;
+    }
+
+    .wick {
+      position: absolute;
+      top: -8px;
+      left: 50%;
+      width: 3px;
+      height: 9px;
+      transform: translateX(-50%);
+      border-radius: 2px;
+      background: #372533;
     }
 
     .fuego {
-      border-radius: 100%;
       position: absolute;
-      top: -20px;
+      z-index: 3;
+      bottom: 151px;
       left: 50%;
-      margin-left: 2.6px;
-      width: 6.66666667px;
-      height: 18px;
-      opacity: 1;
-      transition: opacity 0.5s;
-      transform: translateZ(0);
-      backface-visibility: hidden;
-      background: orange;
-      box-shadow: 0 0 8px rgba(255, 140, 0, 0.8);
+      width: 18px;
+      height: 27px;
+      transform: translateX(-50%);
+      transform-origin: 50% 100%;
+      border-radius: 50% 50% 45% 45%;
+      background: radial-gradient(ellipse at 50% 70%, #fff8b0 0 18%, #ffd45a 45%, #ff7a28 78%);
+      box-shadow: 0 0 12px 5px #ff9a35aa, 0 0 30px 10px #ff6b3580;
+      animation: flame-flicker 0.18s ease-in-out infinite alternate;
+    }
+
+    .fuego::after {
+      content: "";
+      position: absolute;
+      right: 4px;
+      bottom: 3px;
+      width: 7px;
+      height: 13px;
+      border-radius: 50%;
+      background: #fff9d6;
+      filter: blur(1px);
+    }
+
+    @keyframes flame-flicker {
+      from { transform: translateX(-50%) rotate(-4deg) scale(0.94, 1); }
+      to { transform: translateX(-50%) rotate(4deg) scale(1.06, 1.08); }
+    }
+
+    @keyframes cake-bob {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      #cake, .fuego { animation: none; }
     }
   </style>
 </head>
 <body>
-  <div id="cake">
-    <div class="fuego"></div>
-  </div>
+  <main class="scene">
+    <h1>Happy Birthday!</h1>
+    <div id="cake" role="img" aria-label="A birthday cake with a flickering candle">
+      <div class="cake-body">
+        <div class="icing"></div>
+        <div class="sprinkle"></div>
+      </div>
+      <div class="candle">
+        <span class="wick"></span>
+      </div>
+      <div class="fuego"></div>
+    </div>
+  </main>
 </body>
 </html>
-```
